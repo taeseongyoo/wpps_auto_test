@@ -11,8 +11,13 @@
    - Windows 직원용: `run_windows.bat`
    - 파이썬만 깔려있으면 더블클릭 1초 만에 자동 세팅 및 실행.
 4. **보안 검증 및 격리 (Security Audit)**:
-   - 소스코드 내 하드코딩된 아이디/비밀번호 제거 확인.
    - 직원 배포용 이메일 압축 파일(`wpps_autobot_employee_ver.zip`) 내 `.env` 금고를 빈 껍데기로 교체하여 **대표님의 암호 원천 유출 차단**.
+5. **GitHub 클라우드 자산화 (Version Control)**:
+   - 보안이 적용된 (`.gitignore`) 소스코드 전체를 안전하게 `taeseongyoo/wpps_auto_test` 깃허브 저장소로 Push 완료.
+   - 대표님의 수익 창출 스크립트가 로컬 PC 종속을 벗어나 언제나 클라우드에서 안전하게 관리되는 기반 마련.
+6. **B2B SaaS 통계/로깅 시스템 구축 (Supabase 연동)**:
+   - 무료 클라우드 DB인 Supabase와 스크립트를 연결하여, 직원이 봇을 실행할 때마다 성공/실패 여부, 입력 하차지 및 수량을 중앙 DB(표)로 자동 전송(Log)하도록 `wpps_auto_register.py` 업그레이드 완료.
+   - 직원 배포용 실행 파일(`run_mac.command`, `run_windows.bat`) 에도 원격 통신 패키지(`supabase`) 자동 설치 구문 추가.
 
 ---
 

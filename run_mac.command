@@ -25,7 +25,7 @@ fi
 
 echo "2/3: 필요한 부품(라이브러리)을 장착 중입니다..."
 source .venv_mac/bin/activate
-pip install -q playwright python-dotenv
+pip install -q playwright python-dotenv supabase
 
 echo "3/3: Playwright 자동화 브라우저 엔진을 설치 중입니다..."
 PLAYWRIGHT_BROWSERS_PATH=0 playwright install chromium

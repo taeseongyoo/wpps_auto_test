@@ -4,10 +4,26 @@
 # ============================================================
 import os
 import time
+import datetime
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
+from supabase import create_client, Client
 
 load_dotenv()
+WPPS_USER_ID = os.getenv("WPPS_ID", "OPENHAN")
+WPPS_PASSWORD = os.getenv("WPPS_PW")
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+LOGIN_URL = "https://wpps.logisall.net/login"
+SCREENSHOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Initialize Supabase client
+supabase: Client = None
+if SUPABASE_URL and SUPABASE_KEY:
+    try:
+        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    except Exception as e:
+        print(f"⚠️ Supabase 초기화 실패: {e}")
 WPPS_USER_ID = os.getenv("WPPS_ID", "OPENHAN")
 WPPS_PASSWORD = os.getenv("WPPS_PW")
 LOGIN_URL = "https://wpps.logisall.net/login"
@@ -215,11 +231,43 @@ if __name__ == "__main__":
         page.screenshot(path=os.path.join(SCREENSHOT_DIR, "complete.png"))
         print("\n✅ ═══ 스크립트 실행 종료 ═══")
 
+        # 11. 로그 발송 (DB 저장)
+        if supabase:
+            try:
+                log_data = {
+                    "user_id": WPPS_USER_ID,
+                    "dest_code": DEST_CODE,
+                    "type_code": TYPE_CODE,
+                    "quantity": QUANTITY,
+                    "status": "SUCCESS",
+                    "error_message": None
+                }
+                supabase.table("automation_logs").insert(log_data).execute()
+                print("📡 DB 기록 완료: SUCCESS")
+            except Exception as db_e:
+                print(f"⚠️ DB 기록 실패: {db_e}")
+
         input("\n⏸️ 결과 확인을 위해 브라우저를 유지합니다. 창을 닫으려면 Enter를 누르세요...")
 
     except Exception as e:
         print(f"⚠️ 오류 발생: {e}")
         page.screenshot(path=os.path.join(SCREENSHOT_DIR, "error.png"))
+        
+        # 오류 발생 시 실패 로그 발송
+        if 'supabase' in globals() and supabase:
+            try:
+                log_data = {
+                    "user_id": WPPS_USER_ID,
+                    "dest_code": DEST_CODE,
+                    "type_code": TYPE_CODE,
+                    "quantity": QUANTITY,
+                    "status": "ERROR",
+                    "error_message": str(e)
+                }
+                supabase.table("automation_logs").insert(log_data).execute()
+                print("📡 DB 기록 완료: ERROR")
+            except Exception as db_e:
+                pass
     finally:
         browser.close()
         pw.stop()
