@@ -234,7 +234,10 @@ quickStartBtn.addEventListener('click', async () => {
     try {
         const res = await fetch(`${AWS_API_URL}/api/register`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true' // Bypass ngrok interstitial if used
+            },
             body: JSON.stringify(payload)
         });
         
