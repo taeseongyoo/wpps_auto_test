@@ -247,7 +247,12 @@ quickStartBtn.addEventListener('click', async () => {
             alert("API 호출 실패: " + JSON.stringify(data));
         }
     } catch(err) {
-        addLog("Error", `통신 오류: ${err.message}`, "error");
+        if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
+            alert("⚠️ 서버 연결 차단됨 (Mixed Content Error)\n\nVercel(보안 HTTPS)에서 내 PC(일반 HTTP)로 직접 통신하는 것을 브라우저가 보안상 차단했습니다.\n\n해결책: 터미널에서 ngrok을 실행하여 HTTPS 주소를 발급받은 뒤, 로그인 창의 API 주소칸에 넣어주세요!\n명령어: ngrok http 8000");
+            addLog("Error", `브라우저 보안 차단 (HTTPS -> HTTP 연결 불가)`, "error");
+        } else {
+            addLog("Error", `통신 오류: ${err.message}`, "error");
+        }
     } finally {
         setTimeout(() => {
             quickStartBtn.textContent = "⚡ 1건 즉시 출하통보 (Quick Start)";
