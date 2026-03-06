@@ -248,8 +248,8 @@ quickStartBtn.addEventListener('click', async () => {
         }
     } catch(err) {
         if (err.name === 'TypeError' && err.message === 'Failed to fetch') {
-            alert("⚠️ 서버 연결 차단됨 (Mixed Content Error)\n\nVercel(보안 HTTPS)에서 내 PC(일반 HTTP)로 직접 통신하는 것을 브라우저가 보안상 차단했습니다.\n\n해결책: 터미널에서 ngrok을 실행하여 HTTPS 주소를 발급받은 뒤, 로그인 창의 API 주소칸에 넣어주세요!\n명령어: ngrok http 8000");
-            addLog("Error", `브라우저 보안 차단 (HTTPS -> HTTP 연결 불가)`, "error");
+            alert("⚠️ 서버 연결 차단됨 또는 통신 실패\n\n1. 새로 발급받은 Cloudflare 터널 주소가 맞는지 확인해주세요.\n2. 아직 새로고침을 안 하셨다면 F5를 눌러 Vercel을 새로고침 한 뒤 주소를 다시 넣어주세요.\n\n명령어: cloudflared.exe tunnel --url http://127.0.0.1:8000");
+            addLog("Error", `통신 실패 (터널 연결 불량 또는 주소 오입력)`, "error");
         } else {
             addLog("Error", `통신 오류: ${err.message}`, "error");
         }
