@@ -14,7 +14,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 load_dotenv()
-WPPS_USER_ID = os.getenv("WPPS_ID", "OPENHAN")
+WPPS_USER_ID = os.getenv("WPPS_ID", "YOUR_ID")
 WPPS_PASSWORD = os.getenv("WPPS_PW")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
@@ -88,7 +88,7 @@ def run_automation_task(job_req: JobRequest):
             # Login and setup
             with sync_playwright() as pw:
                 browser = pw.chromium.launch(
-                    headless=True, # Important for AWS Ubuntu
+                    headless=False, # Show browser for local debugging
                     args=["--start-maximized", "--disable-save-password-bubble",
                           "--disable-notifications", "--disable-infobars"]
                 )
@@ -221,12 +221,19 @@ def run_automation_task(job_req: JobRequest):
 
         except Exception as e:
             print(f"⚠️ 백그라운드 태스크 오류: {e}")
+            import traceback
+            traceback.print_exc()
             if supabase:
-                supabase.table("automation_logs").insert({
-                    "user_id": str(job_req.user_id),
-                    "status": "ERROR",
-                    "error_message": str(e)
-                }).execute()
+                try:
+                    supabase.table("automation_logs").insert({
+                        "user_id": str(job_req.user_id),
+                        "status": "ERROR",
+                        "dest_code": "SYSTEM",
+                        "type_code": "ERR",
+                        "quantity": 0,
+                    }).execute()
+                except Exception as db_err:
+                    print(f"DB Error Log Fail: {db_err}")
 
 
 @app.post("/api/register")

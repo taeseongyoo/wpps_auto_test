@@ -11,7 +11,7 @@ from playwright.sync_api import sync_playwright
 
 # 금고(.env)에서 인증 정보 로드
 load_dotenv()
-WPPS_USER_ID = os.getenv("WPPS_ID", "OPENHAN")
+WPPS_USER_ID = os.getenv("WPPS_ID", "YOUR_ID")
 WPPS_PASSWORD = os.getenv("WPPS_PW")
 LOGIN_URL = "https://wpps.logisall.net/login"
 SCREENSHOT_DIR = os.path.dirname(os.path.abspath(__file__))

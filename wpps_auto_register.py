@@ -10,7 +10,7 @@ from playwright.sync_api import sync_playwright
 from supabase import create_client, Client
 
 load_dotenv()
-WPPS_USER_ID = os.getenv("WPPS_ID", "OPENHAN")
+WPPS_USER_ID = os.getenv("WPPS_ID", "YOUR_ID")
 WPPS_PASSWORD = os.getenv("WPPS_PW")
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
@@ -24,7 +24,7 @@ if SUPABASE_URL and SUPABASE_KEY:
         supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
     except Exception as e:
         print(f"⚠️ Supabase 초기화 실패: {e}")
-WPPS_USER_ID = os.getenv("WPPS_ID", "OPENHAN")
+WPPS_USER_ID = os.getenv("WPPS_ID", "YOUR_ID")
 WPPS_PASSWORD = os.getenv("WPPS_PW")
 LOGIN_URL = "https://wpps.logisall.net/login"
 SCREENSHOT_DIR = os.path.dirname(os.path.abspath(__file__))
