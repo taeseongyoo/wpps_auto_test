@@ -29,7 +29,7 @@ WPPS_PASSWORD = os.getenv("WPPS_PW")
 LOGIN_URL = "https://wpps.logisall.net/login"
 SCREENSHOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-DEST_CODE = "601494"    # 하차지: 쿠팡-동탄센타
+DEST_CODE = "000000"    # 하차지: 우리집 (실제 코드로 변경하여 사용하세요)
 TYPE_CODE = "N11"       # 유형: KPP파렛트
 QUANTITY = "4"          # 수량
 
