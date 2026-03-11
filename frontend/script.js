@@ -80,7 +80,7 @@ function handleFile(file) {
             // Expected headers: dest_code, type_code, quantity
             // Mapping default template if exact headers miss match
             parsedData = results.data.map(row => ({
-                dest_code: row.dest_code || Object.values(row)[0] || "601494",
+                dest_code: row.dest_code || Object.values(row)[0] || "000000",
                 type_code: row.type_code || Object.values(row)[1] || "N11",
                 quantity: row.quantity || Object.values(row)[2] || "4"
             }));
@@ -131,7 +131,7 @@ startBtn.addEventListener('click', async () => {
 
 // --- Favorites List Management ---
 let favorites = JSON.parse(localStorage.getItem('wpps_favorites')) || [
-    { dest_name: "오픈한(샘플)", dest_code: "601494", type_code: "N11", quantity: "4", selected: true }
+    { dest_name: "OOOO(샘플)", dest_code: "000000", type_code: "N11", quantity: "4", selected: true }
 ];
 
 function saveFavorites() {
